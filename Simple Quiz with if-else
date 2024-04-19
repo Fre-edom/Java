@@ -1,0 +1,178 @@
+import java.util.Scanner;  //We import this library in order to access user input  (Oracle, 2024)
+
+public class Main {      // We create a main class in order for the program to be executable
+    public static void main(String[] args) {
+
+
+        // Defining questions:
+
+        String q1 = "Who is Harry Potter's Father?\n" +   //Correct ans C)
+                "A) Darth Vader\n" +
+                "B) Dumbledore\n" +
+                "C) James Potter\n" +
+                "D) Grutt";
+
+        String q2 = "Who is the wizard in Lord Of The Rings?\n" +     //Correct ans A)
+                "A) Gandalf the Gray\n" +
+                "B) Dumbledore\n" +
+                "C) Spock\n" +
+                "D) Obi-Wan Kenobi";
+
+
+        String q3 = "In The Bing Bang Theory, what is Amy's full name?\n" +      //Correct ans B)
+                "A) Amy Consuela Banana Hammock\n" +
+                "B) Amy Farrah Fowler\n" +
+                "C) Amy Yoda Vader\n" +
+                "D) Amy Buffay Green";
+
+
+        String q4 = "What is Yoda know for?\n" +                               //Correct ans D)
+                "A) His ability to make enchanted cakes\n" +
+                "B) The quote \"Live long and prosper\"\n" +
+                "C) The quote \"Dobby is… free\"\n" +
+                "D) His distinct pattern of speech and mentor role";
+
+
+        String q5 = "What item did Harry Potter give to Dobby to free him?\n" +   //Correct ans C)
+                "A) A mug with Scotty's face\n" +
+                "B) A banana cake\n" +
+                "C) A sock \n" +
+                "D) The Enterprise \n";
+
+        int grade = 0;  // The grade starts at 0, so we define an int variable that stores our original score
+
+
+        // Then we define a nice little introduction to greet the user and give some instructions
+
+        String intro = "Welcome to this week's quiz. In order to play type \"Y\".\n" +
+                "You will be asked a few questions and you will be able to choose \n" +
+                "your answer by typing \"A\", \"B\", \"C\" or \"D\". After all of the questions\n" +
+                "have been answered, your result will be displayed on the screen. Good luck!";
+
+        System.out.println(intro);    //We display the intro we just created
+
+
+        System.out.println("Are you ready? \n");   // We ask permission and here the user will type Y or N as
+                                                 // per instructions in the intro above
+
+        Scanner ready = new Scanner(System.in);    //Here is the prompt that will store a value
+
+        String yes_no = ready.nextLine();  // We create a string variable for the prompt value
+
+
+       //Now, with an if statement we will check to see if the user wants to play or not
+        // If yes we go on... else we say bye and nothig happens
+
+
+        if (yes_no.contains("Y")) {                 // Here is the Y case
+            System.out.println("Great! Let's begin!\n\n");  //Declare that the quiz begins
+
+            System.out.println(q1);        //First question
+
+            Scanner ans1 = new Scanner(System.in); //In the same manner take the user input
+
+            String answer1 = ans1.nextLine(); // Store input in a value
+
+            if (answer1.contains("C")) {    //Chech to see if the value is what we wanted
+
+                System.out.println("Good Job! That is correct!\n"); //Display a congrats message
+                grade += 1;                           //And add +1 to the final grade
+
+
+            } else {                     //Display a wrong answer message
+                System.out.println("That is not correct. This is your reminder to watch Harry Potter!\n"); }
+
+
+            System.out.println(q2);     //Second question
+
+            Scanner ans2 = new Scanner(System.in);
+
+            String answer2 = ans2.nextLine();
+
+            if (answer2.contains("A")){
+
+                System.out.println("Yeiii! That is correct! Kudos!\n");
+                grade += 1;                                        //We again add one only if the answer is correct
+
+            } else {
+                System.out.println("That is so wrong! Please go watch LOTR...\n");
+            }
+
+            System.out.println(q3);
+            Scanner ans3 = new Scanner(System.in);
+            String answer3 = ans3.nextLine();
+            if (answer3.contains("B")){
+
+                System.out.println("Very impressive! Well done!\n");
+                grade += 1;
+
+            } else {
+                System.out.println("Nope! That was not it!\n");
+            }
+
+
+            System.out.println(q4);
+            Scanner ans4 = new Scanner(System.in);
+            String answer4 = ans4.nextLine();
+            if (answer4.contains("D")){
+
+                System.out.println("Yep! That was correct! Bravo!\n");
+                grade += 1;
+
+            } else {
+                System.out.println("Nope.... Star Wars marathon for you!\n");
+            }
+
+
+            System.out.println(q5);
+            Scanner ans5 = new Scanner(System.in);
+            String answer5 = ans5.nextLine();
+            if (answer5.contains("C")){
+
+                System.out.println("Yoooohooo! That is correct!\n");
+                grade += 1;
+
+            } else {
+                System.out.println("Ooops!No,that is not the correct answer!\n");
+            }
+
+
+            double final_grade = (double) grade/5*100;
+
+
+            System.out.println("You are done!! Your Final Score is... \n" +
+                    ".....drums...\n" +
+                    "...more drums....\n"+
+                    "....."+ grade + " or "+ final_grade +"% !!!\n\n");
+
+
+
+
+        } else     {                                                       //Here is the N case
+            System.out.println("No worries, maybe next time..."); }       //Display a little bye type of message
+
+
+    }
+}
+
+
+/*
+References:
+
+    Oracle Corporation. (n.d.). Java Platform, Standard Edition 8 API Specification.
+    Oracle. https://docs.oracle.com/javase/8/docs/api/
+
+    StringClass → https://docs.oracle.com/javase/8/docs/api/java/lang/String.html
+    Operators → https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
+    If-else → https://docs.oracle.com/javase/tutorial/java/nutsandbolts/if.html
+    Scanner → https://docs.oracle.com/javase/8/docs/api/
+
+ */
+
+
+
+
+
+
+
+
