@@ -1,0 +1,322 @@
+import java.util.ArrayList;
+import java.util.List;    //Importing all necessary libraries
+import java.util.Scanner;
+
+public class Student_System {
+
+
+    public static void main(String [] args){
+
+
+
+
+// Creating a string  "instructions" to provide clear instructions to the user:
+
+        String instructions = "Welcome to the Student Management System, where you will be able to \n" +
+                "add, update and view student and their records. Each student has a unique Id.\n" +
+                " In case you attempt to add a student that already exists you will see an Error Message. \n" +
+                "When adding a new student please make sure to provide the following information:\n" +
+                "Student ID, Full Name, Major, Grade and Age.\n" +
+                "To select an item from the menu below, please type the number in front of your choice:\n" +
+                "                                                                                       \n" +
+                "****************************************************************************************\n" +
+                " " +
+                " Please note that the program will keep running until you type \"5\" " +
+                " " +
+                " ";
+
+// Creating a string menu to provide the user with the available options:
+        String menu = "               Menu               \n" +
+                "1) Add a new student to the record.\n" +
+                "2) Update an existing student's record.\n" +
+                "3) View the record of a specific student.\n" +
+                "4) View the records of all students.\n" +
+                "5) Exit the program. \n" +
+                "Please enter your choice below: \n" +
+                " ";
+
+
+
+        // Displaying the program instructions for the user
+        System.out.println(instructions);
+
+        // Displaying Menu options + prompting the user to select his next actions
+        System.out.println(menu);
+
+        Scanner scanner = new Scanner(System.in); // Creating a scanner to receive user input
+        String choice; //Creating the string that is going to be used below as a flag for the while loop and switch stm
+
+
+
+        try{  //Error handling blocks to ensure program will not crash at run time.
+
+
+            do {  //Starting the loop with the program before checking the flag
+
+ // The variable choice is being reassigned the user input
+                 choice = scanner.nextLine();
+
+    //Starting the switch statements in order to run the option that the user chooses.
+    //Depending on what the user types a different block will run
+                switch (choice) {
+                    case "1": //If the user wants to add a student
+                        Student_Management.add(scanner); //taking input from the user
+                        break; // breaking out of this case so the user will be able to make another choice
+                    case "2"://If the user wants to update a student's info
+                        Student_Management.update(scanner);//taking input from the user
+                        break;
+                    case "3"://If the user wants to only view one student
+                        Student_Management.view(scanner);//taking input from the user
+                        break;
+                    case "4"://If the user wants view all student records
+                        Student_Management.viewAll();//taking input from the user
+                        break;
+                    case "5"://If the user wants to add a student
+                        System.out.println("Bye for now!"); //User exists and goodbye message is being displayed
+                        break;
+                    default://If the user wants to add a student
+                        System.out.println("Invalid input. Please try again.");
+                }
+            } while (!choice.equalsIgnoreCase("5")); //Setting the requirment for the while loop
+
+        scanner.close(); //closing the scanner as best practice
+        } catch (Exception e) {  //displaying an error msg in case of an issue during run time
+
+            System.out.println("There was an error!");
+
+
+        }
+
+    }
+
+    public static class Student {//Creating a student class
+
+        //Setting the attributes of the student class
+
+           private String name;  // name as a string
+           private String major; // major as a string
+           private int age;  // age as an integer
+           private double grade;  // grade as a float
+           private String id; // id as a string as it could contain letters
+
+
+        //Creating a constructor to initialize the attributes:
+            public Student(String name, String major, int age, double grade, String id){
+
+                this.name = name;
+                this.major = major;
+                this.age = age;
+                this.grade = grade;
+                this.id = id;
+
+
+            }
+
+
+        //Method to set the user provided attributes
+
+        public void setName(String name){
+                this.name = name;
+        }
+
+        public void setMajor(String major){
+                this.major = major;
+        }
+
+
+        public void setAge(int age){
+
+            if (this.age <= 80 && this.age >=17){
+                this.age = age;
+            } else{
+                System.out.println("Invalid age. Age needs to be between 17 and 80 years old. ");
+            }
+
+        }
+
+        public void setGrade(double grade) {
+
+            if (grade <= 4.0 && grade >= 0) {           //Making sure that Grade is in an acceptable format
+                this.grade = grade;
+
+            } else {
+                                  // Error message for unacceptable grade format
+                System.out.println("Invalid Grade. Grade needs to be between 0 and 4.0 ");
+            }
+        }
+
+        public void setId(String id){
+
+            if(id.length() ==8){     //Making sure that ID is 8 characters
+                this.id = id;
+
+            } else{
+                                          //Error message for unacceptable ID format
+                System.out.println("Invalid Id. Id needs to be 8 characters.");
+            }
+
+        }
+
+        //Methods to get the user provided attributes
+
+        public String getName(){
+                return name;
+        }
+
+        public String getMajor(){
+                return major;
+        }
+
+        public int getAge(){
+                return age;
+        }
+
+        public double getGrade(){
+                return grade;
+        }
+
+        public String getId(){
+                return id;
+        }
+
+
+         // Constructing a string representation of the object student for custom string representation
+        public String toString() {
+            return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Grade: " + grade + ", Major: " + major;
+        }
+
+    }
+
+
+// Student management class which contains all the core functionality:
+
+    public static class Student_Management{
+
+
+//Here all the student records are being stored:
+        private static List<Student> studentList = new ArrayList<>();
+
+        //Creating add method :
+        public static void add(Scanner scanner) {
+
+   //Prompting user to provide user ID first in order to make sure that ID is unique
+            System.out.print("Please provide student ID: ");
+
+     //Making sure that the ID is unique
+            String id = scanner.nextLine();
+            if (isIdAlreadyUsed(id)) {
+                System.out.println("Error: Student ID already exists.");
+                return;
+            }
+
+   //Prompting the user for the rest of the information
+            System.out.print("Please provide student name: ");
+            String name = scanner.nextLine();
+            System.out.print("Please provide student major: ");
+            String major = scanner.nextLine();
+            System.out.print("Please provide student age: ");
+            int age = scanner.nextInt();
+            scanner.nextLine();
+            System.out.print("Please provide student grade: ");
+            double grade = scanner.nextDouble();
+            scanner.nextLine();
+
+ //Creating new student object and add it to the list with all the records
+            studentList.add(new Student(name, major, age, grade, id));
+
+//Displaying success message
+            System.out.println("The student has been successfully added.");
+        }
+
+ //Creating the update method for existing students
+        public static void update(Scanner scanner) {
+
+//Again asking ID first to make sure it exists and to select correct student record
+            System.out.print("Please provide student ID to update: ");
+            String id = scanner.nextLine();
+            int index = findStudentIndex(id);
+
+
+//Checking if ID exists with an if statement
+            if (index != -1) {
+
+ //And prompting for further info
+                System.out.print("Please provide updated student name: ");
+                String name = scanner.nextLine();
+                System.out.print("Please provide updated student major: ");
+                String major = scanner.nextLine();
+                System.out.print("Please provide updated student age: ");
+                int age = scanner.nextInt();
+                System.out.print("Please provide updated student grade: ");
+                double grade = scanner.nextDouble();
+                scanner.nextLine();
+
+//Creating the student object with updated information
+                Student updatedStudent = new Student(name, major, age, grade, id);
+                studentList.set(index, updatedStudent);
+                if (index >= studentList.size()) {
+                    studentList.add(updatedStudent);
+                } else {
+                    studentList.set(index, updatedStudent);
+                }
+                System.out.println("Student information has been successfully updated.");
+            } else {
+                System.out.println("Oops! Student ID not found.");
+            }
+        }
+
+
+//Creating the view method for a single student
+        public static void view(Scanner scanner) {
+            System.out.print("Please provide student ID to view details: ");
+            String id = scanner.nextLine();
+            int index = findStudentIndex(id);
+
+            if (index != -1) {
+                System.out.println("Student Details:");
+                System.out.println(studentList.get(index));
+            } else {
+                System.out.println("Oops! Student ID not found.");
+            }
+        }
+
+
+//Creating the view all records method
+        public static void viewAll() {
+
+   //First checking if any records exist
+            if (studentList.isEmpty()) {
+                System.out.println("No students available at this time. Please create a record first.");
+            } else {
+                System.out.println("Record of All Students:");
+                for (Student student : studentList) {
+                    System.out.println(student);
+                }
+            }
+        }
+
+
+//Creating an additional method just to check if ID exists -- this will be used in the methods above
+        private static boolean isIdAlreadyUsed(String id) {
+            for (Student student : studentList) {
+                if (student.getId().equals(id)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+//One more additional method to find the student index based on their unique ID
+        private static int findStudentIndex(String id) {
+            for (int i = 0; i < studentList.size(); i++) {
+                if (studentList.get(i).getId().equals(id)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
+}
+
