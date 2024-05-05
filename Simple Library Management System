@@ -1,0 +1,262 @@
+import java.util.*;    //We import this library in order to access user input  (Oracle, 2024)
+
+
+public class Library {              // We create a main class in order for the program to be executable
+
+
+    // We create an empty array list that is going to act as a database for all the books and the input will be
+    // book class types, which are defined outside the main
+
+    private static ArrayList<Book> archive = new ArrayList<>();
+
+    public static void main(String [] args){
+
+
+     // Creating some string variables for the instructions and error messages
+
+
+        String intro = "Hello, welcome to MyLibrary.\nIf you want to add a new book please type A." +
+                "\nIf you want to borrow a book, please type B,\nand if you want to remove a book please" +
+                "\ntype R. To exit just type X. ";
+        String errormsg = "That is not a valid option." +
+                "Valid options include \"A\", \"B\", \"R\" and \"X\".";
+
+        String start = "What would you like to do?";
+        System.out.println(intro);       //Displaying instructions
+        System.out.println(start);
+
+        Scanner opt = new Scanner(System.in); //New scanner object to receive user input
+        String options = opt.nextLine(); //Storing user input
+
+
+
+        while (!options.equalsIgnoreCase("X")) { //While loop to exit after user is done
+
+        try{   //Try/except block to catch any errors during run time
+
+            if(options.equalsIgnoreCase("A")) { //Checking what user wants to do ignoring case
+
+                AddBook();          //Calling the AddBook() method (it is written outside this class
+                options.equalsIgnoreCase("X");   //Again we ignore the case
+                break;       //Breaking out of the loop once user is done
+
+
+            } else if(options.equalsIgnoreCase("B")){   //Same for borrowing
+
+               BorrowBook();
+               options.equalsIgnoreCase("X");
+               break;
+
+            } else if(options.equalsIgnoreCase("R")) { //Same for returning a book
+
+               ReturnBook();
+               options.equalsIgnoreCase("X");
+                break;
+
+            } else {      //In case user does not select an option
+
+                System.out.println("I see you are confused, maybe another time! Bye...");
+
+            }
+
+        } catch(Exception e) {      //Displaying error message
+            System.out.println(errormsg);
+        }
+
+
+    }
+    }
+    public static void AddBook(){             //Creating the AddBook() method
+
+            System.out.println("Ok, let's add a new book!"); // Inform that we begin
+
+
+            System.out.println("Please provide the book's name: ");  //Ask for the book name
+            Scanner askname = new Scanner(System.in);   //Take the user input
+            String  addname = askname.nextLine();        //Store it into a variable
+
+            System.out.println("Please provide the book's author: "); //Same for author
+            Scanner askauthor = new Scanner(System.in);
+            String  addauthor = askauthor.nextLine();
+
+            System.out.println("Please provide the amount of books: ");
+            Scanner askamount = new Scanner(System.in);
+            int addamount;
+            addamount = askamount.nextInt();
+
+
+          //  Book newBook = new Book(addname, addauthor, addamount);
+
+
+        boolean bookExists = false; //Boolean to check if the book already exists and add the amount if it does
+
+        for (Book book : archive) {     //Adding all the info of the book
+            if (book.getName().equalsIgnoreCase(addname) && book.getAuthor().equalsIgnoreCase(addauthor)) {
+                book.setAmount(book.getAmount() + addamount);
+                bookExists = true;
+                System.out.println("Book quantity updated successfully."); //Success message
+                break;
+            }
+        }
+
+        if (!bookExists) {       //In case it does not exist we add it in the archive
+            Book newBook = new Book(addname, addauthor, addamount);
+            archive.add(newBook);
+            System.out.println("Book added successfully."); //Success message
+        }
+
+        System.out.print("To exit please type \"X\"  ");
+        Scanner promt_exit = new Scanner(System.in);
+        String exit = promt_exit.nextLine();
+
+
+    }
+
+
+    public static void BorrowBook(){      //Same for borrow
+
+        System.out.println("Ok, let's add some books!"); // Inform that we begin
+
+
+        System.out.println("Please provide the book's name: ");  //Ask for the book name
+        Scanner askname = new Scanner(System.in);   //Take the user input
+        String  addname = askname.nextLine();        //Store it into a variable
+
+        System.out.println("Please provide the book's author: "); //Same for author
+        Scanner askauthor = new Scanner(System.in);
+        String  addauthor = askauthor.nextLine();
+
+        System.out.println("Please provide the amount of books: ");
+        Scanner askamount = new Scanner(System.in);
+        int addamount;
+        addamount = askamount.nextInt();
+
+
+        //  Book newBook = new Book(addname, addauthor, addamount);
+
+
+        boolean bookExists = false;
+
+        for (Book book : archive) {
+            if (book.getName().equalsIgnoreCase(addname)) {
+                // Check if there are enough books available to borrow
+                if (book.getAmount() >= addamount) {
+                    // Update the quantity of the book
+                    book.setAmount(book.getAmount() - addamount);
+                    System.out.println("You have successfully borrowed " + addamount + " copies of " + addname + ".");
+                } else {
+                    System.out.println("Sorry, there are not enough copies of " + addname + " available to borrow.");
+                }
+                bookExists = true;
+                break;
+            }
+        }
+
+        // If the book was not found in the library
+        if (!bookExists) {
+            System.out.println("The book " + addname + " is not available in the library.");
+        }
+
+       System.out.print("To exit please type \"X\"  ");
+       Scanner promt_exit = new Scanner(System.in);
+       String exit = promt_exit.nextLine();
+
+
+    }
+    public static void ReturnBook(){       //Same for return
+        System.out.println("Ok, let's add some books!"); // Inform that we begin
+
+
+        System.out.println("Please provide the book's name: ");  //Ask for the book name
+        Scanner askname = new Scanner(System.in);   //Take the user input
+        String  addname = askname.nextLine();        //Store it into a variable
+
+        System.out.println("Please provide the book's author: "); //Same for author
+        Scanner askauthor = new Scanner(System.in);
+        String  addauthor = askauthor.nextLine();
+
+        System.out.println("Please provide the amount of books: ");
+        Scanner askamount = new Scanner(System.in);
+        int addamount;
+        addamount = askamount.nextInt();
+
+
+        //  Book newBook = new Book(addname, addauthor, addamount);
+
+
+        boolean bookExists = false;
+
+        for (Book book : archive) {
+            if (book.getName().equalsIgnoreCase(addname)) {
+                // Check if there are enough books available to borrow
+                if (book.getAmount() >= addamount) {
+                    // Update the quantity of the book
+                    book.setAmount(book.getAmount() + addamount);
+                    System.out.println("You have successfully returned " + addamount + " copies of " + addname + ".");
+                }
+                bookExists = true;
+                break;
+            }
+        }
+
+        // If the book was not found in the library
+        if (!bookExists) {
+            System.out.println("The book " + addname + " is not from this library.");
+        }
+
+
+        System.out.print("To exit please type \"X\"  ");
+        Scanner promt_exit = new Scanner(System.in);
+        String exit = promt_exit.nextLine();
+
+    }
+
+}
+
+
+
+    class Book {      //Creating a book class with the methods to get the book info and set it up in the library system
+
+        private  String name = "";        //Setting the attributes of the book class for name
+        private String author = "";     // author
+        private  int amount = 0;         // and amount
+
+
+        public Book(String name, String author, int amount) {  //Creating a constructor to initialize the attributes
+
+            this.name = name;
+            this.author = author;
+            this.amount = amount;
+
+        }
+        public String getName(){       //Method to get the user provided attributes
+            return name;
+        }
+
+        public String getAuthor(){
+            return author;
+        }
+
+        public int getAmount(){
+            return amount;
+        }
+
+
+        public void setName(String name){      //Method to set the user provided attributes
+            this.name = name;
+        }
+
+        public void setAuthor(String author){
+            this.author = author;
+        }
+
+        public void setAmount(int amount){
+            this.amount = amount;
+        }
+    }
+
+
+
+
+
+
